@@ -1,0 +1,50 @@
+
+    .con{
+        margin: 30px 10px 30px 10px;
+    }
+
+    .r{
+		float: left;
+		font-size: 3em;
+		margin-top: -2em;
+	}
+
+	nav ul {
+        list-style-type: none;
+        padding: 0;
+        overflow: hidden;
+        background-color: skyblue;
+        margin: 10px;
+        border-radius: 5px;
+	}
+
+	nav li {
+	    float: right;
+	}
+
+	nav li a {
+	    display: block;
+	    color: white;
+	    text-align: center;
+	    padding: 14px 16px;
+	    text-decoration: none;
+	    margin-top: 2em;
+	}
+
+    .txt{
+        display: block;
+        float: left;
+	    color: white;
+	    text-align: center;
+	    padding: 14px 16px;
+        font-size: 1.8em; 
+        margin-top: 0.7em;
+    }
+
+	nav{
+		width: 100%;
+	}
+
+    nav li a:hover {
+        text-decoration: none;
+    }

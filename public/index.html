@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="vote">
+<head>
+	<title>vote</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="main/style.css">
+
+	<script type="text/javascript" src="lib/angular/angular.js"></script>
+	<script type="text/javascript" src="lib/angular/angular-route.js"></script>
+	<script type="text/javascript" src="lib/angular/angular-cookies.js"></script>
+    <script type="text/javascript" src="lib/Chart.js"></script>
+	<script type="text/javascript" src="main/main.js"></script>
+</head>
+<body>  
+    <div class="nav-bar" ng-controller="homeCtrl">
+        <nav>
+            <ul>
+                
+                <li class="r"><a href="#/" class="tit">vote </a></li>
+                <li><a href="#!/signup" ng-hide="currUser">Signup</a></li>
+                <li><a href="#!/login" ng-hide="currUser">Login</a></li>
+                <li><a href="#" ng-show="currUser" ng-click="logout()">Logout</a></li>
+                <li><a href="#!/newpoll" ng-show="currUser">New Poll</a></li>
+                <li><a href="#!/mypolls" ng-show="currUser">My Polls</a></li>
+                <li><a href="#/">Home</a></li>
+                <li class="txt" ng-show="currUser"><span>Hello, {{currUser}}</span> </a></li>
+            </ul>
+        </nav>
+    </div> 
+    <div class="container">
+        <div ng-view class="con"></div>
+    </div>
+</body>
+</html>

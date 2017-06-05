@@ -1,0 +1,15 @@
+
+<div>
+	<div ng-hide="done">
+		<h2>{{vote.qustion}}</h2>
+		<p></p>
+		<ul>
+			<li ng-repeat="option in vote.options track by $index"><button type="button" class="btn btn-info" ng-click="voteNow($index)">{{option}}</button><p></p></li>
+		</ul>
+		<h5>By {{vote.createrUsername}}</h5>
+	</div>
+	<div ng-show="done">
+		<h1>Thank you for voting</h1><br/>
+		<h2>your vote sent seccussfully</h2>
+	</div>
+</div>

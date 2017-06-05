@@ -1,0 +1,20 @@
+<div>
+    <h2>{{poll.qustion}}</h2>
+    <h4>Total of voters: {{total}}</h4>
+    <br/>
+    <div class="row">
+         <div class="col-md-6">
+            <ul>
+                <li ng-repeat="option in poll.options track by $index">
+                    <h4>{{option}}</h4>
+                    <h6>Number of vots: {{poll.result[$index]}}</h6>
+                    <h6>{{prec[$index]}}%</h6>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+   
+</div>

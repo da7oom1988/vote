@@ -1,0 +1,9 @@
+<div>
+    <h2>Your Polls:</h2><br/>
+    <ul>
+        <li ng-repeat="poll in polls track by $index">
+            <a epeat="poll in polls | orderBy: 'createdAt': true">
+             <a style="font-size: 1.5em" href="{{'#!/showpoll/' + poll._id}}">{{poll.qustion}}</a>
+        </li>
+    </ul>
+</div>

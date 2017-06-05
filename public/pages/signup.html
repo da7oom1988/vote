@@ -1,0 +1,10 @@
+<div ng-controller="signupCtrl">
+    <h3>SIGN UP</h3><br>
+    <form>
+        <input type="text" placeholder="Full Name" ng-required="true" class="form-control" ng-model="user.name" /><br>
+        <input type="text" placeholder="username" ng-required="true" class="form-control" ng-model="user.username" minlength="4"/><br>
+        <input type="email" placeholder="Email" ng-required="true" class="form-control" ng-model="user.email"/><br>
+        <input type="password" placeholder="password" ng-required="true" class="form-control" ng-model="user.password" minlength="6"/><br>
+        <button type="submit" ng-click="signup()" class="btn btn-primary">SIGN UP</button>
+    </form>
+</div>

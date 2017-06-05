@@ -1,0 +1,25 @@
+<form ng-hide="pollUrl">
+	<label>What to poll in?</label><input type="text" class="form-control" ng-model="poll.qustion">
+	<p></p>
+	<label>Public:</label><br/>
+	<input type="radio" name="public" ng-model="poll.public" value="false"> No  
+	<input type="radio" name="public" ng-model="poll.public" value="true">Yes
+    <a></a>
+	<p></p>
+	<label>Options:</label><br />
+    <ul>
+        <li ng-repeat="poll in poll.options track by $index">
+            <label>Option:</label><input type="text" class="form-control" ng-model="poll.option">
+        </li>
+    </ul>
+    <button type="button" ng-click="addOption()" class="btn btn-info">Add Option</button>
+    <p></p>
+    <button type="button" ng-click="createPoll()" class="btn btn-primary">Create Poll</button>
+</form>
+
+<div ng-show="pollUrl">
+    <h2>Poll is creates successfully</h2>
+    <h3>the poll URL is:</h3>
+    <a href="{{ '#!' + pollUrl}}">{{pollUrl}}</a>
+</div>
+

@@ -1,0 +1,11 @@
+<div ng-controller="homeCtrl">
+    <h2 style="font-size: 3em" class="text-center">Welcome In VOTE</h2>
+    <br/><br/>
+    <h4>most resent polls:</h4>
+    <ul>
+        <li ng-repeat="poll in polls | orderBy: 'createdAt': true">
+             <a style="font-size: 1.5em" href="{{'#!/vote/' + poll._id}}">{{poll.qustion}}</a>
+             <p style="font-size: .6em">created at : {{poll.createdAt.split('T')[0]}} </p>
+        </li>
+    </ul>
+</div>
