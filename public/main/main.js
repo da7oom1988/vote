@@ -37,8 +37,9 @@ app.run(function($rootScope, $cookies){
 
 app.controller('mypollsCtrl',["$scope","$http","$location",'$cookies','$rootScope',function($scope,$http,$location,$cookies,$rootScope){
 
-    $http.get('/api/mypolls').then(function(res){
-        console.log(res);
+    if(!$rootScope.token) return $location.path('/');
+
+    $http.get('/api/mypolls',{headers:{"user": $rootScope.token}}).then(function(res){
         $scope.polls = res.data;
     });
 
@@ -46,7 +47,17 @@ app.controller('mypollsCtrl',["$scope","$http","$location",'$cookies','$rootScop
 
 
 app.controller('showpollCtrl',["$scope","$http","$location",'$cookies','$rootScope','$routeParams',function($scope,$http,$location,$cookies,$rootScope,$routeParams){
-        
+  
+    $scope.delete = function(){
+        var r = confirm("Are you sure you want to delete this poll?");
+        if(r == true){
+            $http.post('/api/delpoll',$scope.poll).then(function(res){
+                alert('Poll has been deleted successfuly');
+                $location.path('/');
+            });
+        }
+    }
+    
     $http.get('/api/getpoll/' + $routeParams.id).then(function(res){
         $scope.poll = res.data;
         $scope.total = 0;
@@ -105,7 +116,6 @@ app.controller('showpollCtrl',["$scope","$http","$location",'$cookies','$rootSco
 app.controller('voteCtrl',["$scope","$http","$location",'$cookies','$rootScope','$routeParams',function($scope,$http,$location,$cookies,$rootScope,$routeParams){
     $http.get('/api/getpoll/' + $routeParams.id).then(function(res){
         $scope.vote = res.data;
-         console.log($scope.vote);
     });
 
     $scope.voteNow = function(index){
@@ -131,7 +141,7 @@ app.controller('homeCtrl',["$scope","$http","$location",'$cookies','$rootScope',
     };
 
     $http.get('/api/polls').then(function(res){
-        console.log(res);
+
         $scope.polls = res.data;
     });
 
@@ -140,12 +150,17 @@ app.controller('homeCtrl',["$scope","$http","$location",'$cookies','$rootScope',
 }]);
 
 app.controller('newpollCtrl',["$scope","$http","$location",'$cookies','$rootScope',function($scope,$http,$location,$cookies,$rootScope){    
+    if(!$rootScope.token) return $location.path('/');
     $scope.poll = {};
     $scope.poll.public = 'true';
     $scope.poll.options = [{option:""},{option:""}];
 
      $scope.addOption = function(){
         $scope.poll.options.push({option:""});
+     };
+
+     $scope.delOption = function(i){
+         $scope.poll.options.splice( i , 1 );
      };
 
      $scope.createPoll = function(){
@@ -182,6 +197,8 @@ app.controller('newpollCtrl',["$scope","$http","$location",'$cookies','$rootScop
 }]);
 
 app.controller('loginCtrl',["$scope","$http","$location",'$cookies','$rootScope',function($scope,$http,$location,$cookies,$rootScope){
+    if($rootScope.token) return $location.path('/');
+
     $scope.user = {};
     $scope.login = function(){
         if($scope.user.email && $scope.user.password ){
@@ -200,13 +217,19 @@ app.controller('loginCtrl',["$scope","$http","$location",'$cookies','$rootScope'
 
 }]);
 
-app.controller('signupCtrl',["$scope","$http","$location",function($scope,$http,$location){
-    
+app.controller('signupCtrl',["$scope","$http","$location",'$cookies','$rootScope',function($scope,$http,$location,$cookies,$rootScope){
+    if($rootScope.token) return $location.path('/');
     $scope.user = {};
     $scope.signup = function(){
         if($scope.user.name && $scope.user.email && $scope.user.username && $scope.user.password ){
             $http.post('/api/signup',$scope.user).then(function(res){
-                $location.path('/');
+                console.log(res.data);
+                if(res.data != []){
+                    alert(res.data);
+                }else{
+                    $location.path('/');
+                }
+                
              });
         }  
     }

@@ -3,6 +3,10 @@
         margin: 30px 10px 30px 10px;
     }
 
+	.del{
+		margin: 5px;
+	}
+
     .r{
 		float: left;
 		font-size: 3em;

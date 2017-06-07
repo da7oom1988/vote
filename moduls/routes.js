@@ -11,41 +11,73 @@ var secret = "hello";
 module.exports = function(app){
 
     app.post('/api/signup',function(req,res){
-        bcrypt.genSalt(10,function(err,salt){
-            bcrypt.hash(req.body.password,salt,function(err,hash){
-                var data = new userdb({
-                                name: req.body.name,
-                                username: req.body.username,
-                                email: req.body.email,
-                                password: hash,
-                                polls:[]
-                                });
-                data.save(function(err){
-                     if(err) return console.log(err);
+        userdb.findOne({username: req.body.username},function(err,data){
+              if(err) return console.log(err);
+              console.log(data);
+
+             if(data != null){
+                 return res.send("this username is already taken");
+             }
+             else{
+                bcrypt.genSalt(10,function(err,salt){
+                bcrypt.hash(req.body.password,salt,function(err,hash){
+                    var data = new userdb({
+                                    name: req.body.name,
+                                    username: req.body.username,
+                                    email: req.body.email,
+                                    password: hash,
+                                    polls:[]
+                                    });
+                    data.save(function(err){
+                        if(err) return console.log(err);
+                    });
                 });
             });
+            
+            res.end();
+             }
         });
         
-        res.end();
+        
+        
     });
 
     app.post('/api/login',function(req,res){
         var email = (req.body.email).toLowerCase();
-        userdb.findOne({email: email},function(err,data){
-            if(err) console.log(err);
+        if(email.indexOf('@') != -1){
+            userdb.findOne({email: email},function(err,data){
+                if(err) console.log(err);
 
-            if(!data){
-                return res.status(403).send();
-            }else{
-                bcrypt.compare(req.body.password, data.password, function(err, rez){
-                    if(rez) {
-                        var token = jwt.encode(data, secret);
-                        return res.json({token: token, currUser: data.username});
-                    }
-                    else return res.status(403).send();
-                });
-            }
-        });
+                if(!data){
+                    return res.status(403).send();
+                }else{
+                    bcrypt.compare(req.body.password, data.password, function(err, rez){
+                        if(rez) {
+                            var token = jwt.encode(data, secret);
+                            return res.json({token: token, currUser: data.username});
+                        }
+                        else return res.status(403).send();
+                    });
+                }
+            });
+        }else{
+             userdb.findOne({username: email},function(err,data){
+                 if(err) console.log(err);
+
+                if(!data){
+                    return res.status(403).send();
+                }else{
+                    bcrypt.compare(req.body.password, data.password, function(err, rez){
+                        if(rez) {
+                            var token = jwt.encode(data, secret);
+                            return res.json({token: token, currUser: data.username});
+                        }
+                        else return res.status(403).send();
+                    });
+                }
+            });
+        }
+       
     });
 
     app.post('/api/newpoll',function(req,res){
@@ -94,7 +126,9 @@ module.exports = function(app){
     });
 
     app.get('/api/mypolls',function(req,res){
-        var token = req.headers.cookie.split('token=')[1];
+
+        var token = req.headers.user;
+        console.log(req.headers.user);
         var user =jwt.decode(token,secret);
 
         pollsdb.find({createrId: user._id},function(err,data){
@@ -113,6 +147,13 @@ module.exports = function(app){
            res.json(data);
         });
 
+    });
+
+    app.post('/api/delpoll',function(req,res){
+        pollsdb.findByIdAndRemove(req.body._id,function(err){
+            if(err) return console.log(err);
+            res.end();
+        });
     });
 
 

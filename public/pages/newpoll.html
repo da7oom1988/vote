@@ -9,7 +9,8 @@
 	<label>Options:</label><br />
     <ul>
         <li ng-repeat="poll in poll.options track by $index">
-            <label>Option:</label><input type="text" class="form-control" ng-model="poll.option">
+            <label>Option {{$index + 1}}:</label><input type="text" class="form-control" ng-model="poll.option">
+            <button class="btn btn-danger del" ng-show="{{$index >= 2}}" ng-click="delOption($index)" >X</button>
         </li>
     </ul>
     <button type="button" ng-click="addOption()" class="btn btn-info">Add Option</button>
