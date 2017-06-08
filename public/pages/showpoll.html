@@ -2,6 +2,7 @@
     <h2>{{poll.qustion}}</h2>
     <button class="btn btn-danger" ng-click="delete()" ng-show="currUser == poll.createrUsername">Delete Poll</button>
     <h4>Total of voters: {{total}}</h4>
+    <h4>Vote URL: <a href="{{'#!/vote/' + poll._id}}">{{'#!/vote/' + poll._id}}</a></h4>
     <p>created at : {{poll.createdAt.split('T')[0]}} </p>
     <br/>
     <div class="row">

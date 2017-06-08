@@ -13,8 +13,6 @@ module.exports = function(app){
     app.post('/api/signup',function(req,res){
         userdb.findOne({username: req.body.username},function(err,data){
               if(err) return console.log(err);
-              console.log(data);
-
              if(data != null){
                  return res.send("this username is already taken");
              }
@@ -113,10 +111,8 @@ module.exports = function(app){
     app.post('/api/getpoll/:id',function(req,res){
         var id = req.params.id;
         var index = req.body.result;
-        console.log(req.body);
         var update = {};
         update['result.' + index] = 1;
-        console.log(update);
         pollsdb.findByIdAndUpdate(id,{$inc:update},function(err){
             if(err) return console.log(err);
         });
@@ -128,7 +124,6 @@ module.exports = function(app){
     app.get('/api/mypolls',function(req,res){
 
         var token = req.headers.user;
-        console.log(req.headers.user);
         var user =jwt.decode(token,secret);
 
         pollsdb.find({createrId: user._id},function(err,data){

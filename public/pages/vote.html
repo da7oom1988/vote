@@ -11,5 +11,6 @@
 	<div ng-show="done">
 		<h1>Thank you for voting</h1><br/>
 		<h2>your vote sent seccussfully</h2>
+		<a style="font-size: .6em" href="{{'#!/showpoll/' + vote._id}}" ng-show="vote.public == true">Veiw Result</a>
 	</div>
 </div>

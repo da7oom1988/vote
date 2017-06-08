@@ -5,7 +5,10 @@
     <ul>
         <li ng-repeat="poll in polls | orderBy: 'createdAt': true">
              <a style="font-size: 1.5em" href="{{'#!/vote/' + poll._id}}">{{poll.qustion}}</a>
-             <p style="font-size: .6em">created at : {{poll.createdAt.split('T')[0]}} </p>
+             <p style="font-size: .6em">created at : {{poll.createdAt.split('T')[0]}} 
+                 <a style="font-size: .6em" href="{{'#!/showpoll/' + poll._id}}">Veiw Result</a>
+             </p>
+             
         </li>
     </ul>
 </div>

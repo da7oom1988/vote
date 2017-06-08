@@ -57,8 +57,15 @@ app.controller('showpollCtrl',["$scope","$http","$location",'$cookies','$rootSco
             });
         }
     }
+
+
     
     $http.get('/api/getpoll/' + $routeParams.id).then(function(res){
+        if(res.data.public === false){
+            if($rootScope.currUser != res.data.createrUsername){
+                return $location.path('/');
+            }
+        }
         $scope.poll = res.data;
         $scope.total = 0;
         $scope.prec = [];
@@ -227,7 +234,7 @@ app.controller('signupCtrl',["$scope","$http","$location",'$cookies','$rootScope
                 if(res.data != []){
                     alert(res.data);
                 }else{
-                    $location.path('/');
+                    $location.path('/login');
                 }
                 
              });
